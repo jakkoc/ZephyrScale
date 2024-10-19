@@ -1,5 +1,7 @@
 package org.smartbear.zephyrscale.service;
 
+import java.util.Optional;
+
 public interface TimeService {
-    String convertToWords(String time);
+    Optional<String> convertToWords(String time);
 }

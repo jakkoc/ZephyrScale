@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Optional;
+
 @RestController
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 @RequestMapping("/api/v1/time")
@@ -23,8 +25,9 @@ public class TimeController {
     @GetMapping("/convert")
     public ResponseEntity<String> convertToWords(@Pattern(regexp="[0-1]?\\d:[0-5]\\d", message=INVALID_TIME_PATTERN_ERROR_MESSAGE)
                                                      @RequestParam("time") String time) {
-        String convertedTime = timeService.convertToWords(time);
+        Optional<String> convertedTime = timeService.convertToWords(time);
 
-        return ResponseEntity.ok(convertedTime);
+        return convertedTime.map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.internalServerError().build());
     }
 }
