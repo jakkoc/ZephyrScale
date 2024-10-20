@@ -42,7 +42,7 @@ public class BritishTimeToWordsConverter implements TimeToWordsConverter {
     
     private String hourToWord(int hour, int minute) {
         if (minute > 30) {
-            hour = hour + 1;
+            hour = (hour + 1) % 24;
         }
 
         if (hour == 0) {

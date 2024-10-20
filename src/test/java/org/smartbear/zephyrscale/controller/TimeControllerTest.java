@@ -23,7 +23,7 @@ class TimeControllerTest {
     private MockMvc mockMvc;
 
     @ParameterizedTest
-    @ValueSource(strings = {"abc", "23:00", "13.15", "09:67"})
+    @ValueSource(strings = {"abc", "25:00", "13.15", "09:67"})
     @DisplayName("given time is not in correct clock format when convertToWords is called then precondition failed status is returned")
     void givenTimeIsNotInCorrectClockFormat_whenConvertToWordsIsCalled_thenPreconditionFailedStatusIsReturned(String time) throws Exception {
         // when && then

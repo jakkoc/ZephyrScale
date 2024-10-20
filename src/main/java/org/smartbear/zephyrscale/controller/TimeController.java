@@ -25,7 +25,7 @@ import java.util.Optional;
 @Validated
 @Tag(name = "Time API", description = "API for time related operations")
 public class TimeController {
-    private static final String INVALID_TIME_PATTERN_ERROR_MESSAGE = "Provided time input does not conform to 12-hour clock format";
+    private static final String INVALID_TIME_PATTERN_ERROR_MESSAGE = "Provided time input does not conform to 24-hour clock format";
 
     private final TimeService timeService;
 
@@ -35,11 +35,11 @@ public class TimeController {
     )
     @ApiResponse(responseCode = "200", description = "Time converted successfully",
             content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, examples = {@ExampleObject(value = "one o'clock")}))
-    @ApiResponse(responseCode = "412", description = "Provided time input does not conform to 12-hour clock format",
-            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, examples={@ExampleObject(value = "Value must follow pattern [0-1]?\\d:[0-5]\\d")}))
+    @ApiResponse(responseCode = "412", description = "Provided time input does not conform to 24-hour clock format",
+            content = @Content(mediaType = MediaType.TEXT_PLAIN_VALUE, examples={@ExampleObject(value = "Value must follow pattern ([01]?\\d|2[0-3]):[0-5]\\d")}))
     @ApiResponse(responseCode = "500", description = "Internal server error occurred", content = @Content)
     @GetMapping(value = "/convert", produces = MediaType.TEXT_PLAIN_VALUE)
-    public ResponseEntity<String> convertToWords(@Pattern(regexp="[0-1]?\\d:[0-5]\\d", message=INVALID_TIME_PATTERN_ERROR_MESSAGE)
+    public ResponseEntity<String> convertToWords(@Pattern(regexp="([01]?\\d|2[0-3]):[0-5]\\d", message=INVALID_TIME_PATTERN_ERROR_MESSAGE)
                                                      @RequestParam("time") String time) {
         Optional<String> convertedTime = timeService.convertToWords(time);
 
